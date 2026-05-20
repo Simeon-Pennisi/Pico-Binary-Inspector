@@ -3,6 +3,7 @@ package com.simeon.picoinspector;
 import com.simeon.picoinspector.http.PicoBlockClient;
 import com.simeon.picoinspector.binary.BinaryFileWriter;
 import com.simeon.picoinspector.binary.BinaryStats;
+import com.simeon.picoinspector.binary.HexDumpFormatter;
 import java.util.Arrays;
 
 public class PicoBinaryInspector {
@@ -20,18 +21,20 @@ public class PicoBinaryInspector {
             System.out.println("Inspecting block at URL: " + blockUrl);
             PicoBlockClient blockClient = new PicoBlockClient();
             try {
-                byte[] blockData = blockClient.fetchBlockData(blockUrl);
-                System.out.println("Downloaded bytes: " + blockData.length);
-                // Additional processing of blockData done here
+                byte[] data = blockClient.fetchBlockData(blockUrl);
+                System.out.println("Downloaded bytes: " + data.length);
+                // Additional processing of data done here
                 String outputPath = "data/raw/block.bin";
 
                 BinaryFileWriter fileWriter = new BinaryFileWriter();
-                fileWriter.write(blockData, outputPath);
+                fileWriter.write(data, outputPath);
                 System.out.println("Binary file saved to: " + outputPath);
 
                 BinaryStats stats = new BinaryStats();
-                stats.printStats(blockData);
-                
+                HexDumpFormatter hexDump = new HexDumpFormatter();
+                stats.printStats(data);
+                hexDump.printFirstBytes(data, 128);
+
             } catch (Exception e) {
                 System.err.println("Error fetching block data: " + e.getMessage());
                 e.printStackTrace();
