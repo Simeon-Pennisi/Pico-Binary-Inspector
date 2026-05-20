@@ -4,6 +4,7 @@ import com.simeon.picoinspector.http.PicoBlockClient;
 import com.simeon.picoinspector.binary.BinaryFileWriter;
 import com.simeon.picoinspector.binary.BinaryStats;
 import com.simeon.picoinspector.binary.HexDumpFormatter;
+import com.simeon.picoinspector.binary.FloatDecoder;
 import java.util.Arrays;
 
 public class PicoBinaryInspector {
@@ -34,6 +35,9 @@ public class PicoBinaryInspector {
                 HexDumpFormatter hexDump = new HexDumpFormatter();
                 stats.printStats(data);
                 hexDump.printFirstBytes(data, 128);
+
+                FloatDecoder floatDecoder = new FloatDecoder();
+                floatDecoder.printFirstFloat32Values(data, 20);
 
             } catch (Exception e) {
                 System.err.println("Error fetching block data: " + e.getMessage());
