@@ -2,6 +2,7 @@ package com.simeon.picoinspector;
 
 import com.simeon.picoinspector.http.PicoBlockClient;
 import com.simeon.picoinspector.binary.BinaryFileWriter;
+import com.simeon.picoinspector.binary.BinaryStats;
 import java.util.Arrays;
 
 public class PicoBinaryInspector {
@@ -27,6 +28,10 @@ public class PicoBinaryInspector {
                 BinaryFileWriter fileWriter = new BinaryFileWriter();
                 fileWriter.write(blockData, outputPath);
                 System.out.println("Binary file saved to: " + outputPath);
+
+                BinaryStats stats = new BinaryStats();
+                stats.printStats(blockData);
+                
             } catch (Exception e) {
                 System.err.println("Error fetching block data: " + e.getMessage());
                 e.printStackTrace();
