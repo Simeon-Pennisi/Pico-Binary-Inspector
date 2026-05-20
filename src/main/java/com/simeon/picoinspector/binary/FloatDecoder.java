@@ -39,4 +39,17 @@ public class FloatDecoder {
 
         System.out.println("---------------------------------------");
     }
+
+    public float[] decodeBigEndianFloat32Array(byte[] data) {
+        int sampleCount = data.length / 4;
+        float[] values = new float[sampleCount];
+
+        for (int i = 0; i < sampleCount; i++) {
+            values[i] = ByteBuffer.wrap(data, i * 4, 4)
+            .order(ByteOrder.BIG_ENDIAN)
+            .getFloat();
+        }
+
+        return values;
+    }
 }
