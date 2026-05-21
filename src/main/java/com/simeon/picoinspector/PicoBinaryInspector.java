@@ -6,6 +6,7 @@ import com.simeon.picoinspector.binary.BinaryStats;
 import com.simeon.picoinspector.binary.DecodeStats;
 import com.simeon.picoinspector.binary.HexDumpFormatter;
 import com.simeon.picoinspector.binary.FloatDecoder;
+import com.simeon.picoinspector.export.CsvExporter;
 import java.util.Arrays;
 
 public class PicoBinaryInspector {
@@ -44,6 +45,12 @@ public class PicoBinaryInspector {
 
                 DecodeStats decodeStats = new DecodeStats();
                 decodeStats.printFloatStats(values);
+
+            CsvExporter csvExporter = new CsvExporter();
+            String csvPath = "data/decoded/block.csv";
+            csvExporter.exportValues(values, csvPath);
+
+            System.out.println("Decoded CSV saved to: " + csvPath);
 
             } catch (Exception e) {
                 System.err.println("Error fetching block data: " + e.getMessage());
