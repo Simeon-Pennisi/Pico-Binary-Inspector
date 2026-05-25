@@ -57,7 +57,7 @@ public class PicoBinaryInspector {
 
             CsvExporter csvExporter = new CsvExporter();
             String csvPath = "data/decoded/block.csv";
-            csvExporter.exportValues(values, csvPath);
+            csvExporter.exportValues(values, csvPath, blockStartEpochMs, intervalMs);
 
             System.out.println("Decoded CSV saved to: " + csvPath);
 

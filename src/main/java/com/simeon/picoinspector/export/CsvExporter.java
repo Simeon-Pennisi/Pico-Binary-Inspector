@@ -11,8 +11,13 @@ import com.simeon.picoinspector.time.TimestampReconstructor;
 
 public class CsvExporter {
 
-    public void exportValues(float[] values, String outputPath) throws IOException {
-        Path path = Path.of(outputPath);
+    public void exportValues(
+        float[] values,
+        String csvPath,
+        long blockStartEpochMs,
+        long intervalMs
+    ) throws IOException {
+        Path path = Path.of(csvPath);
 
         if (path.getParent() != null) {
             Files.createDirectories(path.getParent());
@@ -25,17 +30,10 @@ public class CsvExporter {
             float value = values[i];
             boolean isNan = Float.isNaN(value);
 
-            // temporary hardcoded values for timestamp reconstruction
-            // long blockStartEpochMs = 1779116000000L;
-            
-            // BlockUrlParser parser = new BlockUrlParser();
-            // long blockStartEpochMs = parser.extractBlockStartEpochMs();
-            // long intervalMs = 1000L;
-
             TimestampReconstructor reconstructor = new TimestampReconstructor();
-            long blockStartEpochMs = values.length; // Placeholder for actual block start epoch ms
-            long intervalMs = 1000L; // Placeholder for actual interval ms
-            Instant timestamp = reconstructor.reconstructTimestamp(blockStartEpochMs, i, intervalMs);
+            // blockStartEpochMs = values.length; // Placeholder for actual block start epoch ms
+            // intervalMs = 1000L; // Placeholder for actual interval ms
+            Instant timestamp = reconstructor.reconstruct(blockStartEpochMs, i, intervalMs);
 
             csv.append(i)
                     .append(",");
