@@ -3,7 +3,10 @@ package com.simeon.picoinspector.export;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Locale;
+
+import com.simeon.picoinspector.time.TimestampReconstructor;
 
 public class CsvExporter {
 
@@ -15,13 +18,23 @@ public class CsvExporter {
         }
 
         StringBuilder csv = new StringBuilder();
-        csv.append("index,value,is_nan\n");
+        csv.append("index,timestamp_utc,value,is_nan\n");
 
         for (int i = 0; i < values.length; i++) {
             float value = values[i];
             boolean isNan = Float.isNaN(value);
 
+            // temporary hardcoded values for timestamp reconstruction
+            long blockStartEpochMs = 1779116000000L;
+            long intervalMs = 1000L;
+
+            TimestampReconstructor timestampReconstructor = new TimestampReconstructor();
+            Instant timestamp = timestampReconstructor.reconstructTimestamp(blockStartEpochMs, i, intervalMs);
+
             csv.append(i)
+                    .append(",");
+                    
+            csv.append(timestamp.toString())
                     .append(",");
 
             if (isNan) {
