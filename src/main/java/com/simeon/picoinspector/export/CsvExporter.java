@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Locale;
 
+import com.simeon.picoinspector.time.BlockUrlParser;
 import com.simeon.picoinspector.time.TimestampReconstructor;
 
 public class CsvExporter {
@@ -25,11 +26,16 @@ public class CsvExporter {
             boolean isNan = Float.isNaN(value);
 
             // temporary hardcoded values for timestamp reconstruction
-            long blockStartEpochMs = 1779116000000L;
-            long intervalMs = 1000L;
+            // long blockStartEpochMs = 1779116000000L;
+            
+            // BlockUrlParser parser = new BlockUrlParser();
+            // long blockStartEpochMs = parser.extractBlockStartEpochMs();
+            // long intervalMs = 1000L;
 
-            TimestampReconstructor timestampReconstructor = new TimestampReconstructor();
-            Instant timestamp = timestampReconstructor.reconstructTimestamp(blockStartEpochMs, i, intervalMs);
+            TimestampReconstructor reconstructor = new TimestampReconstructor();
+            long blockStartEpochMs = values.length; // Placeholder for actual block start epoch ms
+            long intervalMs = 1000L; // Placeholder for actual interval ms
+            Instant timestamp = reconstructor.reconstructTimestamp(blockStartEpochMs, i, intervalMs);
 
             csv.append(i)
                     .append(",");

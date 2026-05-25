@@ -1,6 +1,7 @@
 package com.simeon.picoinspector;
 
 import com.simeon.picoinspector.http.PicoBlockClient;
+import com.simeon.picoinspector.time.BlockUrlParser;
 import com.simeon.picoinspector.binary.BinaryFileWriter;
 import com.simeon.picoinspector.binary.BinaryStats;
 import com.simeon.picoinspector.binary.DecodeStats;
@@ -45,6 +46,14 @@ public class PicoBinaryInspector {
 
                 DecodeStats decodeStats = new DecodeStats();
                 decodeStats.printFloatStats(values);
+
+            // temporary hardcoded values for timestamp reconstruction
+            BlockUrlParser parser = new BlockUrlParser();
+            long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
+            long intervalMs = 1000L;
+            System.out.println("blockUrl: " + blockUrl);
+            System.out.println("blockStartEpochMs: " + blockStartEpochMs);
+            System.out.println("intervalMs: " + intervalMs);
 
             CsvExporter csvExporter = new CsvExporter();
             String csvPath = "data/decoded/block.csv";
