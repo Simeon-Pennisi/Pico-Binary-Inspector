@@ -24,6 +24,15 @@ public class PicoBinaryInspector {
             String blockUrl = args[0];
             System.out.println("Inspecting block at URL: " + blockUrl);
             PicoBlockClient blockClient = new PicoBlockClient();
+            String intervalMString = args[1];
+            // long intervalMs = 1000L; // Default to 1000ms if not set
+            // if (intervalMString != null) {
+            //     try {
+            //         intervalMs = Long.parseLong(intervalMString);
+            //     } catch (NumberFormatException e) {
+            //         System.err.println("Invalid INTERVAL_MS value: " + intervalMString + ". Using default 1000ms.");
+            //     }
+            // }
             try {
                 byte[] data = blockClient.fetchBlockData(blockUrl);
                 System.out.println("Downloaded bytes: " + data.length);
@@ -50,14 +59,20 @@ public class PicoBinaryInspector {
             // temporary hardcoded values for timestamp reconstruction
             BlockUrlParser parser = new BlockUrlParser();
             long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
-            long intervalMs = 1000L;
+            // long intervalMs = 1000L;
             System.out.println("blockUrl: " + blockUrl);
             System.out.println("blockStartEpochMs: " + blockStartEpochMs);
-            System.out.println("intervalMs: " + intervalMs);
+            // System.out.println("intervalMs: " + intervalMs);
+            System.out.println("intervalMString: " + intervalMString);
 
             CsvExporter csvExporter = new CsvExporter();
             String csvPath = "data/decoded/block.csv";
-            csvExporter.exportValues(values, csvPath, blockStartEpochMs, intervalMs);
+            csvExporter.exportValues(
+                values, 
+                csvPath, 
+                blockStartEpochMs, 
+                intervalMString != null ? Long.parseLong(intervalMString) : 1000L
+            );
 
             System.out.println("Decoded CSV saved to: " + csvPath);
 

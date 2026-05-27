@@ -31,8 +31,6 @@ public class CsvExporter {
             boolean isNan = Float.isNaN(value);
 
             TimestampReconstructor reconstructor = new TimestampReconstructor();
-            // blockStartEpochMs = values.length; // Placeholder for actual block start epoch ms
-            // intervalMs = 1000L; // Placeholder for actual interval ms
             Instant timestamp = reconstructor.reconstruct(blockStartEpochMs, i, intervalMs);
 
             csv.append(i)
