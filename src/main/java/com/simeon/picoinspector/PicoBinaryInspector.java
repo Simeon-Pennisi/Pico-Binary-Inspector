@@ -69,8 +69,8 @@ public class PicoBinaryInspector {
             BlockChannelIdParser channelIdParser = new BlockChannelIdParser();
             String channel_Id_raw = channelIdParser.extractChannelId(blockUrl);
             String channel_Id_decoded = java.net.URLDecoder.decode(channel_Id_raw, java.nio.charset.StandardCharsets.UTF_8);
-            System.out.println("Extracted channel_Id_raw: " + channel_Id_raw);
-            System.out.println("Extracted channel_Id_decoded: " + channel_Id_decoded);
+            System.out.println("Encoded channel ID: " + channel_Id_raw);
+            System.out.println("Decoded channel ID: " + channel_Id_decoded);
 
             BlockUrlParser parser = new BlockUrlParser();
             long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
