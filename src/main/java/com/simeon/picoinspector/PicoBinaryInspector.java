@@ -1,6 +1,7 @@
 package com.simeon.picoinspector;
 
 import com.simeon.picoinspector.http.PicoBlockClient;
+import com.simeon.picoinspector.time.BlockChannelIdParser;
 import com.simeon.picoinspector.time.BlockUrlParser;
 import com.simeon.picoinspector.binary.BinaryFileWriter;
 import com.simeon.picoinspector.binary.BinaryStats;
@@ -8,6 +9,7 @@ import com.simeon.picoinspector.binary.DecodeStats;
 import com.simeon.picoinspector.binary.HexDumpFormatter;
 import com.simeon.picoinspector.binary.FloatDecoder;
 import com.simeon.picoinspector.export.CsvExporter;
+
 import java.util.Arrays;
 
 public class PicoBinaryInspector {
@@ -17,7 +19,7 @@ public class PicoBinaryInspector {
 
             if (args.length == 0) {
                 System.out.println("Usage:");
-                System.out.println("  java PicoBinaryInspector <block-url>");
+                System.out.println("  java PicoBinaryInspector <block-url> <interval-ms>");
                 return;
             }
 
@@ -64,6 +66,12 @@ public class PicoBinaryInspector {
                 DecodeStats decodeStats = new DecodeStats();
                 decodeStats.printFloatStats(values);
 
+            BlockChannelIdParser channelIdParser = new BlockChannelIdParser();
+            String channel_Id_raw = channelIdParser.extractChannelId(blockUrl);
+            String channel_Id_decoded = java.net.URLDecoder.decode(channel_Id_raw, java.nio.charset.StandardCharsets.UTF_8);
+            System.out.println("Extracted channel_Id_raw: " + channel_Id_raw);
+            System.out.println("Extracted channel_Id_decoded: " + channel_Id_decoded);
+
             BlockUrlParser parser = new BlockUrlParser();
             long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
             System.out.println("blockUrl: " + blockUrl);
@@ -76,7 +84,9 @@ public class PicoBinaryInspector {
                 values, 
                 csvPath, 
                 blockStartEpochMs, 
-                intervalMs
+                intervalMs,
+                channel_Id_raw,
+                channel_Id_decoded
             );
 
             System.out.println("Decoded CSV saved to: " + csvPath);

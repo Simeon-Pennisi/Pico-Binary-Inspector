@@ -15,7 +15,9 @@ public class CsvExporter {
         float[] values,
         String csvPath,
         long blockStartEpochMs,
-        long intervalMs
+        long intervalMs,
+        String channel_Id_raw,
+        String channel_Id_decoded
     ) throws IOException {
         Path path = Path.of(csvPath);
 
@@ -24,7 +26,7 @@ public class CsvExporter {
         }
 
         StringBuilder csv = new StringBuilder();
-        csv.append("index,timestamp_utc,value,is_nan\n");
+        csv.append("index,timestamp_utc,value,is_nan,channel_Id_raw,channel_Id_decoded\n");
 
         for (int i = 0; i < values.length; i++) {
             float value = values[i];
@@ -47,7 +49,14 @@ public class CsvExporter {
 
             csv.append(",")
                     .append(isNan)
+                    .append(",");
+
+
+            csv.append(channel_Id_raw)
+                    .append(",");
+            csv.append(channel_Id_decoded)
                     .append("\n");
+            
         }
 
         Files.writeString(path, csv.toString());
