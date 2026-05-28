@@ -30,9 +30,14 @@ public class PicoBinaryInspector {
             if (args.length >= 2) {
                 try {
                     intervalMs = Long.parseLong(args[1]);
+                    if (intervalMs <= 0) {
+                        System.err.println("Interval must be positive: " + intervalMs);
+                        return;
+                    }
                     System.out.println("Using custom intervalMs: " + intervalMs);
                 } catch (NumberFormatException e) {
-                    System.err.println("Invalid intervalMs provided, using default: " + intervalMs);
+                    System.err.println("Invalid intervalMs provided: " + intervalMs);
+                    return;
                 }
             }
             // String intervalMs = args[1];
