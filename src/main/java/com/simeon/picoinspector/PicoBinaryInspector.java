@@ -24,15 +24,18 @@ public class PicoBinaryInspector {
             String blockUrl = args[0];
             System.out.println("Inspecting block at URL: " + blockUrl);
             PicoBlockClient blockClient = new PicoBlockClient();
-            String intervalMString = args[1];
-            // long intervalMs = 1000L; // Default to 1000ms if not set
-            // if (intervalMString != null) {
-            //     try {
-            //         intervalMs = Long.parseLong(intervalMString);
-            //     } catch (NumberFormatException e) {
-            //         System.err.println("Invalid INTERVAL_MS value: " + intervalMString + ". Using default 1000ms.");
-            //     }
-            // }
+
+            long intervalMs = 1000L; // Default to 1 second
+
+            if (args.length >= 2) {
+                try {
+                    intervalMs = Long.parseLong(args[1]);
+                    System.out.println("Using custom intervalMs: " + intervalMs);
+                } catch (NumberFormatException e) {
+                    System.err.println("Invalid intervalMs provided, using default: " + intervalMs);
+                }
+            }
+            // String intervalMs = args[1];
             try {
                 byte[] data = blockClient.fetchBlockData(blockUrl);
                 System.out.println("Downloaded bytes: " + data.length);
@@ -56,14 +59,11 @@ public class PicoBinaryInspector {
                 DecodeStats decodeStats = new DecodeStats();
                 decodeStats.printFloatStats(values);
 
-            // temporary hardcoded values for timestamp reconstruction
             BlockUrlParser parser = new BlockUrlParser();
             long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
-            // long intervalMs = 1000L;
             System.out.println("blockUrl: " + blockUrl);
             System.out.println("blockStartEpochMs: " + blockStartEpochMs);
-            // System.out.println("intervalMs: " + intervalMs);
-            System.out.println("intervalMString: " + intervalMString);
+            System.out.println("intervalMs: " + intervalMs);
 
             CsvExporter csvExporter = new CsvExporter();
             String csvPath = "data/decoded/block.csv";
@@ -71,7 +71,7 @@ public class PicoBinaryInspector {
                 values, 
                 csvPath, 
                 blockStartEpochMs, 
-                intervalMString != null ? Long.parseLong(intervalMString) : 1000L
+                intervalMs
             );
 
             System.out.println("Decoded CSV saved to: " + csvPath);
