@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Locale;
 
-import com.simeon.picoinspector.time.BlockUrlParser;
 import com.simeon.picoinspector.time.TimestampReconstructor;
 
 public class CsvExporter {
@@ -18,7 +17,8 @@ public class CsvExporter {
         long blockStartEpochMs,
         long intervalMs,
         String channel_id_raw,
-        String channel_id_decoded
+        String channel_id_decoded,
+        String capture_id
     ) throws IOException {
         Path path = Path.of(csvPath);
 
@@ -27,7 +27,7 @@ public class CsvExporter {
         }
 
         StringBuilder csv = new StringBuilder();
-        csv.append("index,timestamp_utc,value,is_nan,channel_id_raw,channel_id_decoded\n");
+        csv.append("index,timestamp_utc,value,is_nan,channel_id_raw,channel_id_decoded,capture_id\n");
 
         for (int i = 0; i < values.length; i++) {
             float raw_value = values[i];
@@ -56,6 +56,9 @@ public class CsvExporter {
             csv.append(channel_id_raw)
                     .append(",");
             csv.append(channel_id_decoded)
+                    .append(",");
+
+            csv.append(capture_id)
                     .append("\n");
             
         }
