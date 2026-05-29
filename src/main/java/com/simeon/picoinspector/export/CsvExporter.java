@@ -18,7 +18,8 @@ public class CsvExporter {
         long intervalMs,
         String channel_id_raw,
         String channel_id_decoded,
-        String capture_id
+        String capture_id,
+        String resolution
     ) throws IOException {
         Path path = Path.of(csvPath);
 
@@ -27,7 +28,7 @@ public class CsvExporter {
         }
 
         StringBuilder csv = new StringBuilder();
-        csv.append("index,timestamp_utc,value,is_nan,channel_id_raw,channel_id_decoded,capture_id\n");
+        csv.append("index,timestamp_utc,value,is_nan,channel_id_raw,channel_id_decoded,capture_id, resolution\n");
 
         for (int i = 0; i < values.length; i++) {
             float raw_value = values[i];
@@ -59,6 +60,9 @@ public class CsvExporter {
                     .append(",");
 
             csv.append(capture_id)
+                    .append(",");
+                    
+            csv.append(resolution)
                     .append("\n");
             
         }

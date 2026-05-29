@@ -10,6 +10,7 @@ import com.simeon.picoinspector.binary.HexDumpFormatter;
 import com.simeon.picoinspector.binary.FloatDecoder;
 import com.simeon.picoinspector.export.CsvExporter;
 import com.simeon.picoinspector.time.CaptureIdParser;
+import com.simeon.picoinspector.time.ResolutionParser;
 
 import java.util.Arrays;
 
@@ -83,6 +84,10 @@ public class PicoBinaryInspector {
             String captureId = captureIdParser.extractCaptureId(blockUrl);
             System.out.println("Capture ID: " + captureId);
 
+            ResolutionParser resolutionParser = new ResolutionParser();
+            String resolution = String.valueOf(resolutionParser.extractIntervalMs(blockUrl));
+            System.out.println("Resolution: " + resolution);
+
             CsvExporter csvExporter = new CsvExporter();
             String csvPath = "data/decoded/block.csv";
             csvExporter.exportValues(
@@ -92,7 +97,8 @@ public class PicoBinaryInspector {
                 intervalMs,
                 channel_Id_raw,
                 channel_Id_decoded,
-                captureId
+                captureId,
+                resolution
             );
 
             System.out.println("Decoded CSV saved to: " + csvPath);
