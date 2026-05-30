@@ -29,7 +29,34 @@ public class PicoBinaryInspector {
             System.out.println("Inspecting block at URL: " + blockUrl);
             PicoBlockClient blockClient = new PicoBlockClient();
 
-            long intervalMs = 1000L; // Default to 1 second
+            BlockChannelIdParser channelIdParser = new BlockChannelIdParser();
+            String channel_Id_raw = channelIdParser.extractChannelId(blockUrl);
+            String channel_Id_decoded = java.net.URLDecoder.decode(channel_Id_raw, java.nio.charset.StandardCharsets.UTF_8);
+            // System.out.println("Encoded channel ID: " + channel_Id_raw);
+            // System.out.println("Decoded channel ID: " + channel_Id_decoded);
+
+            // BlockUrlParser parser = new BlockUrlParser();
+            // long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
+            // System.out.println("blockUrl: " + blockUrl);
+            // System.out.println("blockStartEpochMs: " + blockStartEpochMs);
+            // System.out.println("intervalMs: " + intervalMs);
+
+            CaptureIdParser captureIdParser = new CaptureIdParser();
+            String captureId = captureIdParser.extractCaptureId(blockUrl);
+            // System.out.println("Capture ID: " + captureId);
+
+            ResolutionParser resolutionParser = new ResolutionParser();
+            String resolution = String.valueOf(resolutionParser.extractResolution(blockUrl));
+            // System.out.println("Resolution: " + resolution);
+
+            long resolutionSeconds = resolutionParser.extractResolution(blockUrl);
+            long intervalMs = resolutionSeconds * 1000L; // Default to 1 second
+
+            BlockUrlParser parser = new BlockUrlParser();
+            long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
+            // System.out.println("blockUrl: " + blockUrl);
+            // System.out.println("blockStartEpochMs: " + blockStartEpochMs);
+            // System.out.println("intervalMs: " + intervalMs);
 
             if (args.length >= 2) {
                 try {
@@ -44,7 +71,7 @@ public class PicoBinaryInspector {
                     return;
                 }
             }
-            // String intervalMs = args[1];
+    
             try {
                 byte[] data = blockClient.fetchBlockData(blockUrl);
                 System.out.println("Downloaded bytes: " + data.length);
@@ -68,24 +95,24 @@ public class PicoBinaryInspector {
                 DecodeStats decodeStats = new DecodeStats();
                 decodeStats.printFloatStats(values);
 
-            BlockChannelIdParser channelIdParser = new BlockChannelIdParser();
-            String channel_Id_raw = channelIdParser.extractChannelId(blockUrl);
-            String channel_Id_decoded = java.net.URLDecoder.decode(channel_Id_raw, java.nio.charset.StandardCharsets.UTF_8);
+            // BlockChannelIdParser channelIdParser = new BlockChannelIdParser();
+            // String channel_Id_raw = channelIdParser.extractChannelId(blockUrl);
+            // String channel_Id_decoded = java.net.URLDecoder.decode(channel_Id_raw, java.nio.charset.StandardCharsets.UTF_8);
             System.out.println("Encoded channel ID: " + channel_Id_raw);
             System.out.println("Decoded channel ID: " + channel_Id_decoded);
 
-            BlockUrlParser parser = new BlockUrlParser();
-            long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
+            // BlockUrlParser parser = new BlockUrlParser();
+            // long blockStartEpochMs = parser.extractBlockStartEpochMs(blockUrl);
             System.out.println("blockUrl: " + blockUrl);
             System.out.println("blockStartEpochMs: " + blockStartEpochMs);
             System.out.println("intervalMs: " + intervalMs);
 
-            CaptureIdParser captureIdParser = new CaptureIdParser();
-            String captureId = captureIdParser.extractCaptureId(blockUrl);
+            // CaptureIdParser captureIdParser = new CaptureIdParser();
+            // String captureId = captureIdParser.extractCaptureId(blockUrl);
             System.out.println("Capture ID: " + captureId);
 
-            ResolutionParser resolutionParser = new ResolutionParser();
-            String resolution = String.valueOf(resolutionParser.extractIntervalMs(blockUrl));
+            // ResolutionParser resolutionParser = new ResolutionParser();
+            // String resolution = String.valueOf(resolutionParser.extractResolution(blockUrl));
             System.out.println("Resolution: " + resolution);
 
             CsvExporter csvExporter = new CsvExporter();

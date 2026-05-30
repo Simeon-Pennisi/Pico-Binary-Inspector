@@ -7,8 +7,6 @@ public class BlockUrlParser {
         String[] parts = url.split("/");
         String lastPart = parts[parts.length - 1];
 
-        String channelId = parts[parts.length - 3];
-
         return Long.parseLong(lastPart);
     }
 }
