@@ -54,9 +54,12 @@ public class DecodeStats {
         System.out.println("Longest NaN run: " + maxNanRun);
         System.out.println("Valid percentage: " + String.format("%.2f%%%n", validPercentage));
         System.out.println("NaN percentage: " + String.format("%.2f%%%n", nanPercentage));
-        System.out.println("First valid index: " + (firstValidIndex != -1 ? firstValidIndex : "N/A"));
-        System.out.println("Last valid index: " + (lastValidIndex != -1 ? lastValidIndex : "N/A"));
-        System.out.println("First NaN index: " + (firstNanIndex != -1 ? firstNanIndex : "N/A"));
+        System.out.println("First valid index number: " + (firstValidIndex != -1 ? firstValidIndex : "N/A"));
+        System.out.println("First valid index value: " + (firstValidIndex != -1 ? values[firstValidIndex] : "N/A"));
+        System.out.println("Last valid index number: " + (lastValidIndex != -1 ? lastValidIndex : "N/A"));
+        System.out.println("Last valid index value: " + (lastValidIndex != -1 ? values[lastValidIndex] : "N/A"));
+        System.out.println("Valid Span: " + (lastValidIndex - firstValidIndex + 1) + " values");
+        System.out.println("Valid Span Length: " + (lastValidIndex - firstValidIndex + 1) * 4 + " bytes");
 
         if (validCount > 0) {
             System.out.println("Min value: " + min);
